@@ -66,7 +66,7 @@ const NewAside = (props: InewAside) => {
                 fontWeight={mainRoute === '/cardapio' ? 'bold' : '400'}
               >
                 Cardápio
-                        </AsideLiText>
+              </AsideLiText>
             </AsideLi>
           </Link>
           <Link to="/comandas" style={{ color: 'inherit', textDecoration: 'inherit' }}>
@@ -78,7 +78,7 @@ const NewAside = (props: InewAside) => {
                 fontWeight={mainRoute === '/comandas' ? 'bold' : '400'}
               >
                 Comandas
-                        </AsideLiText>
+              </AsideLiText>
             </AsideLi>
           </Link>
           <Link to="/mesas" style={{ color: 'inherit', textDecoration: 'inherit' }}>
@@ -90,21 +90,9 @@ const NewAside = (props: InewAside) => {
                 fontWeight={mainRoute === '/mesas' ? 'bold' : '400'}
               >
                 Mesas
-                        </AsideLiText>
+              </AsideLiText>
             </AsideLi>
           </Link>
-          {/* <Link to="/usuarios" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-            <AsideLi
-              backgroundColor={mainRoute === '/usuarios' ? colors.lightBlack : colors.black}
-            >
-              <AsideLiText
-                color={mainRoute === '/usuarios' ? colors.green : colors.green}
-                fontWeight={mainRoute === '/usuarios' ? 'bold' : '400'}
-              >
-                Usuarios
-                        </AsideLiText>
-            </AsideLi>
-          </Link> */}
           <Link to="/pedidos" style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <AsideLi
               backgroundColor={mainRoute === '/pedidos' ? colors.lightBlack : colors.black}
@@ -114,15 +102,15 @@ const NewAside = (props: InewAside) => {
                 fontWeight={mainRoute === '/pedidos' ? 'bold' : '400'}
               >
                 Pedidos
-                        </AsideLiText>
+              </AsideLiText>
             </AsideLi>
           </Link>
         </AsideUl>
-        <Link to="/" onClick={() => Logout()}>
+        <Link to="/adm" onClick={() => Logout()}>
           <AsideBackButton >
-            <ArrowBackOutline 
-              width="1.5rem" 
-              height="1.5rem" 
+            <ArrowBackOutline
+              width="1.5rem"
+              height="1.5rem"
               style={{ margin: "auto" }}
             />
           </AsideBackButton>

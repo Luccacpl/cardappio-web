@@ -17,7 +17,7 @@ function Routes() {
     return(
         <BrowserRouter>
             <Switch>
-                <Route path="/"  exact component={Login}/>
+                <Route path="/adm"  exact component={Login}/>
                 <Route path="/cadastro" component={Cadastro}/>
                 <Route path="/inicio" component={Inicio}/>
                 <Route path="/cardapio" component={Cardapio}/>
@@ -29,7 +29,7 @@ function Routes() {
                 <Route path="/client" exact component={Client} />
                 <Route path="/client/cardapio" component={ClientCardapio} />
                 <Route path="/client/comanda" component={ClientCommand} />
-                <Route path="/qrscan" component={QrScan} />
+                <Route path="/" component={QrScan} />
             </Switch>
         </BrowserRouter>
     );
