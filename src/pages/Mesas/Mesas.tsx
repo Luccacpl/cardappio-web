@@ -199,6 +199,10 @@ const Mesas = () => {
     }
   }
 
+  function teste(){
+    window.print()
+  }
+
   useEffect(() => {
     GetTables();
   }, []);
@@ -304,7 +308,7 @@ const Mesas = () => {
                   renderAs="svg"
                   includeMargin={true}
                 />
-                <Button content="Imprimir" marginTop="48px" width="20%" />
+                <Button content="Imprimir" marginTop="48px" width="20%" clicked={() => teste()}/>
 
               </>
             )}

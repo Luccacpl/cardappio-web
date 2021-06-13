@@ -252,6 +252,8 @@ function Cardapio() {
 
       );
 
+      GetCategory()
+
       history.push("/cardapio");
 
       setRefresh((chave) => chave + 1);
@@ -864,7 +866,7 @@ function Cardapio() {
                 </Dropzone>
 
                 <Button
-                  content="Adicionar Categoria"
+                  content="Adicionar Item"
                   width="25%"
                   height="2.25rem"
                   marginTop="28px"
