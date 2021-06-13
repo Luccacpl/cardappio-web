@@ -28,12 +28,14 @@ function QrScan() {
         const { text } = data
         console.log(text)
         setData(text)
-        api.post(`/customercommand/${data}`)
+        api.post(`/customercommand/${text}`)
           .then(response => {
+            console.log(response)
             localStorage.setItem('TOKEN', response.data.authorization)
             history.push("/client")
           })
           .catch(error => {
+            alert(text)
             alert(error.message)
             setScanned(false)
           })
