@@ -29,6 +29,9 @@ const ClientCardapio = () => {
 
   const history = useHistory()
 
+  const getTokenFromStorage = (): string =>
+  localStorage.getItem("TOKEN") as string;
+
   const [showLoader, setShowLoader] = useState(false)
 
   const [categories, setCategories] = useState<ICategory[]>([])
@@ -38,7 +41,7 @@ const ClientCardapio = () => {
     await api
       .get("/customercardappio", {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {
@@ -59,7 +62,7 @@ const ClientCardapio = () => {
     await api
       .put(`/customercommand/${id}`, {}, {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {

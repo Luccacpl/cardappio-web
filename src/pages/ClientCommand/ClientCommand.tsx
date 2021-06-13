@@ -56,6 +56,9 @@ const ClientCommand = () => {
 
   const history = useHistory()
 
+  const getTokenFromStorage = (): string =>
+  localStorage.getItem("TOKEN") as string;
+
   const [showLoader, setShowLoader] = useState(false)
   const [Command, setCommand] = useState<ICommand>()
   const [teste, setTeste] = useState<IComanda>()
@@ -66,7 +69,7 @@ const ClientCommand = () => {
     await api
       .get("/customercommand", {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {
@@ -89,7 +92,7 @@ const ClientCommand = () => {
     await api
       .delete(`/customercommand/${id}`, {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {
@@ -108,7 +111,7 @@ const ClientCommand = () => {
     await api
       .put('/customerconfirmcommand', {}, {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {
@@ -127,7 +130,7 @@ const ClientCommand = () => {
     await api
       .post('/customercheckoutcommand', {}, {
         headers: {
-          authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN0YXVyYW50X2lkIjo0LCJjb21tYW5kX2lkIjo1LCJpYXQiOjE2MjMxMDk4ODEsImV4cCI6MTYyNTcwMTg4MX0.H-U_Xe-Uh5-zYItzWbIbBCOdO_MTMX961D6s0hwhQj8",
+          authorization: getTokenFromStorage(),
         },
       })
       .then(response => {
