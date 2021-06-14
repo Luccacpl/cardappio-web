@@ -240,28 +240,28 @@ function Cardapio() {
     data.append('price', priceItem)
 
     console.log("body: ", data)
-    try {
-      api.post(
-        url,
-        data,
-        {
-          headers: {
-            authorization: getTokenFromStorage(),
-          },
+
+    api.post(
+      url,
+      data,
+      {
+        headers: {
+          authorization: getTokenFromStorage(),
         },
+      },
 
-      );
-
-      GetCategory()
-
-      history.push("/cardapio");
-
-      setRefresh((chave) => chave + 1);
-
-      setShowModal(false);
-    } catch (error) {
-      return alert("Erro ao tentar cadastrar Item");
-    }
+    )
+      .then(response => {
+        console.log(response)
+        GetCategory()
+        history.push("/cardapio");
+        setRefresh((chave) => chave + 1);
+        setShowModal(false);
+      })
+      .catch(error => {
+        setShowModal(false);
+        console.log(error.message)
+      })
   }
 
   async function goToCategory(category: ICategory) {

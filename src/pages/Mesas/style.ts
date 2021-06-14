@@ -8,6 +8,7 @@ const TableWithTabs = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 `
 
 const Body = styled.div`
@@ -27,6 +28,7 @@ const TabsContainer = styled.div`
   position: relative;
   top: -55px;
   left: -45px;
+
 `
 
 const CardsContainer = styled.div`
