@@ -228,8 +228,10 @@ function Cardapio() {
     }
   }
 
-  function handleSubmitItem(event: any) {
+  async function handleSubmitItem(event: any) {
     const url = 'item'
+
+    // alert('entrou aqui')
 
     var data = new FormData(event.target)
     data.append('name', nameItem)
@@ -239,29 +241,24 @@ function Cardapio() {
     data.append('imageurl', selectedFile)
     data.append('price', priceItem)
 
-    console.log("body: ", data)
+    console.log("data", data)
 
-    api.post(
-      url,
-      data,
-      {
-        headers: {
-          authorization: getTokenFromStorage(),
-        },
-      },
+    // alert("teste")
 
-    )
+    await api.post(url, data)
       .then(response => {
-        console.log(response)
-        GetCategory()
-        history.push("/cardapio");
-        setRefresh((chave) => chave + 1);
+        console.log(response.data)
+        // history.push("/cardapio");
+        // setRefresh((chave) => chave + 1);
         setShowModal(false);
+        GetCategory()
       })
       .catch(error => {
         setShowModal(false);
         console.log(error.message)
       })
+
+      
   }
 
   async function goToCategory(category: ICategory) {
