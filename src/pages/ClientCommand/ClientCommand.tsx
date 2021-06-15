@@ -73,7 +73,7 @@ const ClientCommand = () => {
         },
       })
       .then(response => {
-        if(response.data.content.command.command_checkout === null){
+        if(response.data.content.command.command_checkout !== null){
           localStorage.removeItem('TOKEN')
           history.push('/')
         }
