@@ -32,7 +32,7 @@ const NewAside = (props: InewAside) => {
     localStorage.removeItem('EMAIL')
     localStorage.removeItem('CATEGORYID')
 
-    history.push('/')
+    history.push('/adm')
   }
 
   return (

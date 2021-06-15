@@ -73,6 +73,10 @@ const ClientCommand = () => {
         },
       })
       .then(response => {
+        if(response.data.content.command.command_checkout === null){
+          localStorage.removeItem('TOKEN')
+          history.push('/')
+        }
         setShowLoader(false);
         setCommand(response.data.content.command);
         setTeste(response.data.content)
