@@ -10,6 +10,10 @@ import { useHistory } from 'react-router-dom';
 
 import Loader from "components/Loader";
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+
 interface IItems {
   id: number,
   name: string,
@@ -30,11 +34,19 @@ const ClientCardapio = () => {
   const history = useHistory()
 
   const getTokenFromStorage = (): string =>
-  localStorage.getItem("TOKEN") as string;
+    localStorage.getItem("TOKEN") as string;
 
   const [showLoader, setShowLoader] = useState(false)
 
   const [categories, setCategories] = useState<ICategory[]>([])
+
+  const [alert, SetAlert] = useState(false);
+  const [alertError, SetAlertError] = useState(false);
+
+  function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
   async function getCategory() {
     setShowLoader(true);
@@ -64,7 +76,7 @@ const ClientCardapio = () => {
         },
       })
       .then(response => {
-        if(response.data.content.command.command_checkout !== null){
+        if (response.data.content.command.command_checkout !== null) {
           localStorage.removeItem('TOKEN')
           history.push('/')
         }
@@ -85,10 +97,12 @@ const ClientCardapio = () => {
       })
       .then(response => {
         setShowLoader(false);
+        SetAlert(true)
         console.log(response)
       })
       .catch(error => {
         setShowLoader(false);
+        SetAlertError(true)
         console.log(error.message)
       })
   }
@@ -123,7 +137,7 @@ const ClientCardapio = () => {
                   <Cards
                     name={item.name}
                     desc={item.desc}
-                    price={Number(item.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
+                    price={Number(item.price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                     src={item.imageurl}
                     bgColor="#202020"
                     AddClicked={() => addItem(item.id)}
@@ -136,6 +150,22 @@ const ClientCardapio = () => {
         ))}
 
         {showLoader && <Loader />}
+
+        {alertError === true &&
+          <Snackbar open={alertError} autoHideDuration={4000} onClose={() => SetAlertError(false)}>
+            <Alert onClose={() => SetAlertError(false)} severity="error">
+              Não conseguimos adicionar o Item.
+            </Alert>
+          </Snackbar>
+        }
+
+        {alert === true &&
+          <Snackbar open={alert} autoHideDuration={4000} onClose={() => SetAlert(false)}>
+            <Alert onClose={() => SetAlert(false)} severity="success">
+              Item adicionado com sucesso!
+            </Alert>
+          </Snackbar>
+        }
 
       </Container>
     </div>
