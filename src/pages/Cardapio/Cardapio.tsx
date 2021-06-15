@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 import api from "../../services/api";
 
@@ -10,7 +13,6 @@ import Container from "../../components/Container/Container";
 import { Grid } from "../../components/Grid/style";
 import Modal from "../../components/Modal/Modal";
 import Header from "../../components/Header/Header";
-import Logo from "../../public/icons/logo-bk-white.svg";
 import Food from "../../public/icons/fast-food-outline.svg";
 import Button from "../../components/Button/Button";
 import DeleteModal from '../../components/DeleteModal/index'
@@ -63,10 +65,14 @@ interface IRestaurant {
 
 function Cardapio() {
 
+  function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+
   const customStyles = {
     control: (base: any, state: any) => ({
       ...base,
-      // background: "#2C2C2C",
       width: "55%",
       height: "60px",
       fontColor: "white",
@@ -90,21 +96,21 @@ function Cardapio() {
       marginTop: 0,
       width: "55%",
       fontSize: "16px"
-      // background: "#2C2C2C",
-      // color: "white"
     }),
     menuList: (base: any) => ({
       ...base,
       // kill the white space on first and last option
       padding: 0,
       fontSize: "16px"
-      // background: "#2C2C2C",
-      // color: "white"
+
     })
   };
 
 
   const history = useHistory()
+
+  const [alertErrorValidation, SetAlertErrorValidation] = useState(false);
+  const [alertError, setAlertError] = useState(false)
 
   const [showDeleteModal, setShowDeleteModal] = useState<IDeleteCategory>({ id: 0, name: '', isActive: false })
   const [showLoader, setShowLoader] = useState(false);
@@ -202,7 +208,7 @@ function Cardapio() {
 
   async function handleSubmit(event: ChangeEventHandler<HTMLInputElement>) {
     if (name === "") {
-      return alert("Complete o campo corretamente!");
+      SetAlertErrorValidation(true)
     } else {
       setName('')
       try {
@@ -223,19 +229,19 @@ function Cardapio() {
 
         setShowModal(false);
       } catch (error) {
-        return alert("Erro ao tentar cadastrar Categoria");
+        setAlertError(true)
       }
     }
   }
 
   function validate() {
     if (nameItem === '' || description === '' || priceItem === '') {
-      return alert("Complete o campo corretamente!");
+      SetAlertErrorValidation(true)
     } else {
       setStep(step + 1)
     }
   }
-  
+
 
   async function handleSubmitItem() {
     const url = 'item'
@@ -270,6 +276,7 @@ function Cardapio() {
       })
       .catch(error => {
         setShowModal(false);
+        alert('Ocorreu algum erro. Tente novamente!')
         console.log(error.message)
       })
   }
@@ -293,7 +300,8 @@ function Cardapio() {
       history.push('/cardapio/' + category.id)
 
     } catch (error) {
-      return alert("ocorreu algum erro");
+      setAlertError(true)
+      alert('Ocorreu algum erro. Tente novamente!')
     }
   }
 
@@ -317,7 +325,8 @@ function Cardapio() {
       setRefresh((chave) => chave + 1);
       console.log(id);
     } catch (error) {
-      return alert("ocorreu algum erro");
+      setAlertError(true)
+      alert('Ocorreu algum erro. Tente novamente!')
     }
     setShowDeleteModal({ id: id, name: '', isActive: false });
   }
@@ -330,7 +339,8 @@ function Cardapio() {
         },
       });
     } catch (error) {
-      return alert("ocorreu algum erro");
+      setAlertError(true)
+      alert('Ocorreu algum erro. Tente novamente!')
     }
     console.log(category.id);
     console.log(category.name);
@@ -346,7 +356,8 @@ function Cardapio() {
         },
       });
     } catch (error) {
-      return alert("ocorreu algum erro");
+      setAlertError(true)
+      alert('Ocorreu algum erro. Tente novamente!')
     }
     setNameItem(item.name)
     setDescription(item.desc)
@@ -384,7 +395,7 @@ function Cardapio() {
     if (name === '' ||
       desc === ''
     ) {
-      return alert('Complete os campos corretamente!')
+      SetAlertErrorValidation(true)
     } else {
       try {
         console.log('categoria 1 ', item.category_id)
@@ -415,14 +426,15 @@ function Cardapio() {
         })
         window.location.reload()
       } catch (error) {
-        return alert('Erro ao tentar editar Item' + error.message)
+        setAlertError(true)
+        alert('Ocorreu algum erro. Tente novamente!')
       }
     }
   }
 
   async function handleSubmitEdit(category: ICategory, id: number, name: string) {
     if (name === "") {
-      return alert("Complete o campo corretamente!");
+      SetAlertErrorValidation(true)
     } else {
       try {
         console.log('id: ', id);
@@ -442,7 +454,8 @@ function Cardapio() {
 
         setShowModalEdit({ id: category.id, isActive: false, name: category.name });
       } catch (error) {
-        return alert("Erro ao tentar cadastrar Categoria");
+        setAlertError(true)
+        alert('Ocorreu algum erro. Tente novamente!')
       }
     }
   }
@@ -481,7 +494,8 @@ function Cardapio() {
           console.log(response.data);
         });
     } catch (error) {
-      return alert("ocorreu algum erro");
+      setAlertError(true)
+      alert('Ocorreu algum erro. Tente novamente!')
     }
   }
 
@@ -508,6 +522,7 @@ function Cardapio() {
         setShowLoader(false)
       })
       .catch(error => {
+        setAlertError(true)
         console.log(error.message)
         setShowLoader(false)
       })
@@ -906,6 +921,23 @@ function Cardapio() {
           </form>
         </Modal>
       )}
+
+      {alertErrorValidation === true &&
+        <Snackbar open={alertErrorValidation} autoHideDuration={4000} onClose={() => SetAlertErrorValidation(false)}>
+          <Alert onClose={() => SetAlertErrorValidation(false)} severity="error">
+            Complete os campos corretamente!
+          </Alert>
+        </Snackbar>
+      }
+
+      {alertError === true &&
+        <Snackbar open={alertError} autoHideDuration={4000} onClose={() => setAlertError(false)}>
+          <Alert onClose={() => setAlertError(false)} severity="error">
+            Ocorreu algum erro. Tente novamente!
+          </Alert>
+        </Snackbar>
+      }
+
     </Grid>
   );
 }

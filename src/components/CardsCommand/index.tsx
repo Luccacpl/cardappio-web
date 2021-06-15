@@ -19,6 +19,7 @@ interface ICards {
   checkColor: string
   preparationColor: string
   closeColor: string
+
 }
 
 function CommandCards(props: ICards) {

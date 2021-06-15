@@ -64,6 +64,8 @@ function Comandas() {
 
   const [itemStatus, setItemStatus] = useState(1)
 
+  const [refreshStatus, setRefreshStatus] = useState(false)
+
   const getTokenFromStorage = (): string =>
     localStorage.getItem("TOKEN") as string;
 
@@ -108,7 +110,7 @@ function Comandas() {
     }
   }
 
-  async function updateItemStatus(id: any, status: number) {
+  async function updateItemStatus(id: any, status: number, idCommand: any) {
     try {
       await api
         .put(`/admupdateorder/${id}`, { status: status }, {
@@ -117,6 +119,7 @@ function Comandas() {
           },
         })
         .then((response) => {
+          setRefreshStatus(!refreshStatus)
           setShowAlert(true)
           setItemStatus(id)
           console.log(response)
@@ -169,110 +172,123 @@ function Comandas() {
       <Container display="flex" justifyContent="flex-end" padding="110px 6px 0px 55px" height="100vh">
         <Body>
           <TableWithTabs>
-            <CardsContainer>
-              <div style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
-                height: "fit-content",
-                padding: "5px",
-              }}>
-                <Title
-                  color="#B2DA5A"
-                  fontSizeResponsive="24px"
-                  fontWeight="400"
-                >
-                  {`Deseja finalizar a comanda ${filteredCommands?.command_id} ?`}
-                </Title>
-                <Button
-                  content="Fechar comanda"
-                  width="20%"
-                  height="40px"
-                  heightResponsive="40px"
-                  margin="0 0 0 24px"
-                  // clicked={() => closeCommand(filteredCommands?.command_id)}
-                  clicked={() => setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: true })}
-                />
-              </div>
-
-              <div style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
-                height: "fit-content",
-                padding: "5px",
-                marginTop: "36px"
-              }}>
-                <P color="#B2DA5A" fontSizeResponsive="18px" fontWeight="bold">Total Confirmados: </P>
-                <P
-                  marginLeft="14px"
-                  color="#B2DA5A"
-                  fontSizeResponsive="18px"
-                  fontWeight="bold"
-                >
-                  {filteredCommands?.total_Price_Confirmed === undefined ? "R$: 0,00" : filteredCommands?.total_Price_Confirmed?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </P>
-              </div>
-
-
-              <Linha />
-
-              <Container
-                display="flex"
-                flexDirection="row"
-                justifyContent="flex-start"
-                margin="36px"
-                backgroundColor="transparent"
-                padding="0px"
-                alignitems="center"
-                gap="30px"
-              >
-                {filteredCommands === undefined
-                  ?
-                  null
-                  :
-                  filteredCommands.itemsCommand.map(itemcommand => (
-                    <CardsCommand
-                      key={itemcommand.item_command_id}
-                      src={FundoMenor}
-                      name={itemcommand.item.item_name}
-                      price={itemcommand.item.item_price}
-                      desc={itemcommand.item.item_desc}
-                      cancelClicked={() => updateItemStatus(itemcommand.item_command_id, 4)}
-                      readyClicked={() => updateItemStatus(itemcommand.item_command_id, 3)}
-                      preparationClicked={() => updateItemStatus(itemcommand.item_command_id, 2)}
-                      checkColor={itemcommand.item_command_status === 3 ? "black" : "white"}
-                      preparationColor={itemcommand.item_command_status === 2 ? "black" : "white"}
-                      closeColor={itemcommand.item_command_status === 4 ? "black" : "white"}
-                    />
-
-                  ))
-                }
-
-                {showCloseModal.isActive && (
-                  <DeleteModal
-                    text={`Deseja fechar a comanda ${showCloseModal.command_id}`}
-                    clicked={() => closeCommand(filteredCommands?.command_id)}
-                    closeClicked={() => setShowCloseModal({ command_id: showCloseModal.command_id, isActive: false })}
-                    content={"Fechar"}
+            {filteredCommands === undefined
+              ?
+              <Title color="#B2DA5A" marginBottom="64px" style={{ textAlign: "center"}}>
+                Clique em uma comanda para ver detalhes!
+              </Title>
+              :
+              <CardsContainer>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "fit-content",
+                  padding: "5px",
+                }}>
+                  <Title
+                    color="#B2DA5A"
+                    fontSizeResponsive="24px"
+                    fontWeight="400"
+                  >
+                    {filteredCommands?.command_id === undefined
+                      ?
+                      "Selecione uma comanda!"
+                      :
+                      `Deseja finalizar a comanda ${filteredCommands?.command_id} ?`
+                    }
+                  </Title>
+                  <Button
+                    content="Fechar comanda"
+                    width="20%"
+                    height="40px"
+                    heightResponsive="40px"
+                    margin="0 0 0 24px"
+                    // clicked={() => closeCommand(filteredCommands?.command_id)}
+                    clicked={() => setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: true })}
                   />
-                )}
+                </div>
 
-                {showLoader && <Loader />}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "fit-content",
+                  padding: "5px",
+                  marginTop: "36px"
+                }}>
+                  <P color="#B2DA5A" fontSizeResponsive="18px" fontWeight="bold">Total Confirmados: </P>
+                  <P
+                    marginLeft="14px"
+                    color="#B2DA5A"
+                    fontSizeResponsive="18px"
+                    fontWeight="bold"
+                  >
+                    {filteredCommands?.total_Price_Confirmed === undefined ? "R$: 0,00" : filteredCommands?.total_Price_Confirmed?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </P>
+                </div>
 
 
-                {showALert === true &&
-                  <Snackbar open={showALert} autoHideDuration={4000} onClose={() => setShowAlert(false)}>
-                    <Alert onClose={() => setShowAlert(false)} severity="success">
-                      Status do item mudado
-                    </Alert>
-                  </Snackbar>
-                }
+                <Linha />
 
-              </Container>
-            </CardsContainer>
+                <Container
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="flex-start"
+                  margin="36px"
+                  backgroundColor="transparent"
+                  padding="0px"
+                  alignitems="center"
+                  gap="30px"
+                >
+                  {filteredCommands === undefined
+                    ?
+                    null
+                    :
+                    filteredCommands.itemsCommand.map(itemcommand => (
+                      <CardsCommand
+                        key={itemcommand.item_command_id}
+                        src={FundoMenor}
+                        name={itemcommand.item.item_name}
+                        price={Number(itemcommand.item.item_price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                        desc={itemcommand.item.item_desc}
+                        cancelClicked={() => updateItemStatus(itemcommand.item_command_id, 4, filteredCommands.command_id)}
+                        readyClicked={() => updateItemStatus(itemcommand.item_command_id, 3, filteredCommands.command_id)}
+                        preparationClicked={() => updateItemStatus(itemcommand.item_command_id, 2, filteredCommands.command_id)}
+                        checkColor={itemcommand.item_command_status === 3 ? "black" : "white"}
+                        preparationColor={itemcommand.item_command_status === 2 ? "black" : "white"}
+                        closeColor={itemcommand.item_command_status === 4 ? "black" : "white"}
+                      />
+
+                    ))
+                  }
+
+                  {showCloseModal.isActive && (
+                    <DeleteModal
+                      text={`Deseja fechar a comanda ${showCloseModal.command_id}`}
+                      clicked={() => closeCommand(filteredCommands?.command_id)}
+                      closeClicked={() => setShowCloseModal({ command_id: showCloseModal.command_id, isActive: false })}
+                      content={"Fechar"}
+                    />
+                  )}
+
+                  {showLoader && <Loader />}
+
+
+                  {showALert === true &&
+                    <Snackbar open={showALert} autoHideDuration={4000} onClose={() => setShowAlert(false)}>
+                      <Alert onClose={() => setShowAlert(false)} severity="success">
+                        Status do item mudado
+                      </Alert>
+                    </Snackbar>
+                  }
+
+                </Container>
+              </CardsContainer>
+            }
+
           </TableWithTabs>
         </Body>
       </Container>
