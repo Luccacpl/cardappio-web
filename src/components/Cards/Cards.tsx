@@ -9,7 +9,7 @@ interface ICards {
   marginLeft?: string
   name: string
   desc: string
-  price: string
+  price: any
   src: string
   EditClicked?: any
   TrashClicked?: any

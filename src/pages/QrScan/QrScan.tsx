@@ -77,9 +77,11 @@ function QrScan() {
         onScan={handleScan}
         facingMode="rear"
       />
-      <P marginBottom="64px" color="#B2DA5A" fontWeight="bold">
-        Aponte a câmera para o QRCode na mesa para abrir uma comanda!
+      <P marginBottom="64px" color="#B2DA5A" fontWeight="bold" textAlign="center">
+        Aponte a câmera para o QRCode na mesa <br/> para abrir uma comanda!
       </P>
+
+      {showLoader && (<Loader />)}
     </div>
   )
 }

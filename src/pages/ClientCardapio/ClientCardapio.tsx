@@ -104,7 +104,7 @@ const ClientCardapio = () => {
                   <Cards
                     name={item.name}
                     desc={item.desc}
-                    price={item.price}
+                    price={Number(item.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                     src={item.imageurl}
                     bgColor="#202020"
                     AddClicked={() => addItem(item.id)}
