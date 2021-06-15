@@ -117,7 +117,8 @@ const Footer = styled.div`
   align-items: center;
   margin-top: 46px;
   padding-left: 20px;
-`
+  margin-bottom: 24px;
+  `
 
 const CircleButton = styled.div`
   width: 60px;
