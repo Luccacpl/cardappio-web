@@ -595,7 +595,6 @@ function Cardapio() {
           subtitle={nomeCategoria === null ? "Categoria: Geral" : `Categoria: ` + nomeCategoria}
           addButton="Adicionar novo prato"
           src={Food}
-          logo={Logo}
           restaurantName={restaurant?.restaurant_name}
           placeholder="Digite o nome de um item"
           clickedAdd={() => openCreateItemModal()}

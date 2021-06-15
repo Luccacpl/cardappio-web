@@ -55,9 +55,6 @@ const Header = (props: IHeader) => {
           <Title fontSize="18px" fontSizeResponsive="32px" marginTop="24px">
             {props.restaurantName}
           </Title>
-          <LogoDiv>
-            <Svg src={props.logo} height="64px" textalign="center" />
-          </LogoDiv>
         </DivD>
       </Container>
 

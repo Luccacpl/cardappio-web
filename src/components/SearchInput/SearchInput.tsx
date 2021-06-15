@@ -15,11 +15,6 @@ interface ISearchInput {
 const SearchInput = (props: ISearchInput) => {
     return(
         <DivInput>
-            <CustomInput placeholder={props.placeholder} onChange={props.onChange}>
-            </CustomInput>
-            <SearchDiv>
-            <Svg src={SearchSvg}  height={dimensions.spacing20} color="white" textalign="center"/>
-            </SearchDiv>
             <AddButton onClick={props.clickedAdd}>{props.addButton}</AddButton>
         </DivInput>
     );

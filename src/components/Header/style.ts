@@ -50,7 +50,7 @@ const DivD = styled.div`
     margin: 0px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     @media print {
         display: none
     }

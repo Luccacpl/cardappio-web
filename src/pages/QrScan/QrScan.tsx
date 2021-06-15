@@ -4,7 +4,7 @@ import Qr from 'react-qr-scanner'
 import api from 'services/api';
 import { Title, P } from '../../components/Text/text'
 import Loader from "components/Loader";
-
+import { useEffect } from 'react';
 
 
 
@@ -17,10 +17,19 @@ function QrScan() {
   const [showLoader, setShowLoader] = useState(false)
 
 
+  function verifyToken() {
+    if (localStorage.getItem('TOKEN'))
+      history.push('/client')
+  }
+
   const previewStyle = {
     height: 240,
     width: 320,
   }
+
+  useEffect(() => {
+    verifyToken()
+  }, [])
 
 
   const handleScan = (data: any) => {
@@ -78,7 +87,7 @@ function QrScan() {
         facingMode="rear"
       />
       <P marginBottom="64px" color="#B2DA5A" fontWeight="bold" textAlign="center">
-        Aponte a câmera para o QRCode na mesa <br/> para abrir uma comanda!
+        Aponte a câmera para o QRCode na mesa <br /> para abrir uma comanda!
       </P>
 
       {showLoader && (<Loader />)}
