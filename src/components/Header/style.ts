@@ -17,6 +17,9 @@ const Circle = styled.div`
     justify-content: center;
     align-items: center;
     margin: 30px 0 0 0;
+    @media print {
+        display: none
+    }
 `
 
 const DivTitle = styled.div<IDivTitle>`
@@ -24,6 +27,9 @@ const DivTitle = styled.div<IDivTitle>`
     height: ${props => props.height};
     margin: ${props => props.margin || '0px'};
     padding-top: 30px;
+    @media print {
+        display: none
+    }
 `
 
 const LogoDiv = styled.div`
@@ -34,19 +40,30 @@ const LogoDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    @media print {
+        display: none
+    }
 `
 
 const DivD = styled.div`
+    width: 45%;
     margin: 0px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    @media print {
+        display: none
+    }
+
 `
 
 const DivE = styled.div`
-    width: 70%;
+    width: 55%;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    @media print {
+        display: none
+    }
 `
 
 export { Circle, DivTitle, LogoDiv, DivD, DivE };

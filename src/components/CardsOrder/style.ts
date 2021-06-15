@@ -47,10 +47,9 @@ const DivPicture = styled.div<DivPictureProps>`
   width: 100%;
   background-color: grey;
   border-radius: 5px;
-  /* background: url(${(props) => props.imgUrl});
-    background-position: center;
-    background-size: cover; */
-  background-color: white;
+  background: url(${(props) => props.imgUrl});
+  background-position: center;
+  background-size: cover;
 `;
 
 const DivMenu = styled.div<DivMenuProps>`
@@ -83,7 +82,7 @@ const TitleCard = styled.h2<TitleCardProps>`
   @media screen and (min-width: 1413px) and (max-width: 1455px) {
     font-size: ${fontsSizes.small14};
   }
-`
+`;
 
 const DescriptionCard = styled.p<DescriptionCardProps>`
   font-size: ${fontsSizes.small12};
@@ -91,18 +90,17 @@ const DescriptionCard = styled.p<DescriptionCardProps>`
   color: #888888;
 `;
 
-
 const Circle = styled.div`
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: #A0C353;
+  background-color: #a0c353;
   float: left;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export {
   DivCard,

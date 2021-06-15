@@ -39,6 +39,9 @@ const Aside = styled.aside<AsideProps>`
     min-width: 125px;
     text-align: center;
     grid-column-start: 1;
+    @media print {
+        display: none;
+    }
 `
 
 const AsideTitle = styled.h1<AsideTitleProps>`

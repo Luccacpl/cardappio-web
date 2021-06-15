@@ -61,7 +61,7 @@ function Cadastro() {
       }
 
       const dataRestaurant = {
-        "name": name,
+        "name": nameRestaurant,
         "logo": ""
       }
 
@@ -180,7 +180,7 @@ function Cadastro() {
         >
           Ja possui uma conta?
                 </P>
-        <Link style={{ textDecoration: "none" }} to="/">
+        <Link style={{ textDecoration: "none" }} to="/adm">
           <P
             color={colors.menuOrange}
             fontSize={fontsSizes.small14}

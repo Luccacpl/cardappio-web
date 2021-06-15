@@ -44,6 +44,9 @@ const CustomButton = styled.button<CustomButtonProps>`
         font-size: ${props => props.fontSizeResponsive || fontsSizes.large18};
         height: ${(props) => props.heightResponsive || '2.5rem'};
     }
+    @media print {
+        display: none
+    }
 `
 
 export default CustomButton

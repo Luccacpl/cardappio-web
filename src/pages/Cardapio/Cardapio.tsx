@@ -55,6 +55,12 @@ interface IShowModal {
   name: string;
 }
 
+interface IRestaurant {
+  restaurant_id: number
+  restaurant_name: string,
+  restaurant_logo: string
+}
+
 function Cardapio() {
 
   const customStyles = {
@@ -139,6 +145,8 @@ function Cardapio() {
   const [resposta, setResposta] = useState(0)
 
   const [filteredCategory, setFilteredCategory] = useState<ICategory>()
+
+  const [restaurant, setRestaurant] = useState<IRestaurant>()
 
   var nomeCategoria = window.localStorage.getItem('CATEGORYNAME')
 
@@ -227,13 +235,16 @@ function Cardapio() {
       setStep(step + 1)
     }
   }
+  
 
-  async function handleSubmitItem(event: any) {
+  async function handleSubmitItem() {
     const url = 'item'
+
+    setShowModal(true);
 
     // alert('entrou aqui')
 
-    var data = new FormData(event.target)
+    var data = new FormData()
     data.append('name', nameItem)
     data.append('desc', description)
     data.append('available', String(available))
@@ -243,10 +254,14 @@ function Cardapio() {
 
     console.log("data", data)
 
-    // alert("teste")
+    // const result = await api.post(url, data)
+
+    // alert(result)
+    // console.log("result: ", result)
 
     await api.post(url, data)
       .then(response => {
+        alert("entrou no then")
         console.log(response.data)
         // history.push("/cardapio");
         // setRefresh((chave) => chave + 1);
@@ -257,9 +272,8 @@ function Cardapio() {
         setShowModal(false);
         console.log(error.message)
       })
-
-      
   }
+
 
   async function goToCategory(category: ICategory) {
     try {
@@ -480,6 +494,24 @@ function Cardapio() {
     setShowModalCreate(true)
   }
 
+  async function getRestaurant() {
+    setShowLoader(true)
+    await api
+      .get('/restaurant', {
+        headers: {
+          authorization: getTokenFromStorage(),
+        },
+      })
+      .then(response => {
+        setRestaurant(response.data.content)
+        console.log(response.data.content)
+        setShowLoader(false)
+      })
+      .catch(error => {
+        console.log(error.message)
+        setShowLoader(false)
+      })
+  }
 
 
   useEffect(() => {
@@ -488,6 +520,7 @@ function Cardapio() {
 
   useEffect(() => {
     GetCategory();
+    getRestaurant()
     setName("");
   }, [refresh]);
 
@@ -563,6 +596,7 @@ function Cardapio() {
           addButton="Adicionar novo prato"
           src={Food}
           logo={Logo}
+          restaurantName={restaurant?.restaurant_name}
           placeholder="Digite o nome de um item"
           clickedAdd={() => openCreateItemModal()}
           onChange={(e) => {

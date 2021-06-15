@@ -57,6 +57,9 @@ const DivContainer = styled.div<DivMenuContainerProps>`
     background-color: ${colors.lightBlack};
     width: 100%;
     min-width: 300px;
+    @media print {
+        display: none
+    }
 `
 
 const DivTitle = styled.div<DivTitleProps>`
@@ -65,6 +68,9 @@ const DivTitle = styled.div<DivTitleProps>`
     background-color: ${colors.menuOrange};
     @media(min-width: 1440px) {
         height: 19.9%
+    }
+    @media print {
+        display: none
     }
 `
 
@@ -82,6 +88,9 @@ const Title = styled.h1<TitleProps>`
         font-size: ${fontsSizes.large30};
         padding-top: ${props => props.paddingTop || dimensions.spacing60};
     }
+    @media print {
+        display: none
+    }
 `
 
 const SubTitle = styled.p<SubTitleProps>`
@@ -95,6 +104,9 @@ const SubTitle = styled.p<SubTitleProps>`
     }
     @media(min-width: 1440px) {
         font-size: ${fontsSizes.large20};
+    }
+    @media print {
+        display: none
     }
 `
 
@@ -111,6 +123,9 @@ const SubMenu = styled.div<SubMenuProps>`
     @media(min-width: 1440px) {
         height: 80.7%
     }
+    @media print {
+        display: none
+    }
 
 `
 
@@ -126,6 +141,9 @@ const TitleSubMenu = styled.h2<TitleSubMenuProps>`
     @media(min-width: 1440px) {
         font-size: ${fontsSizes.large24};
     }
+    @media print {
+        display: none
+    }
 `
 
 const UlMenu = styled.ul<UlMenuProps>`
@@ -136,6 +154,9 @@ const UlMenu = styled.ul<UlMenuProps>`
     }
     @media(min-width: 1440px) {
         margin-top: ${dimensions.spacing40};
+    }
+    @media print {
+        display: none
     }
 `
 
@@ -151,6 +172,9 @@ const LiMenu = styled.li<LiMenuProps>`
     }
     @media(min-width: 1440px) {
         font-size: ${fontsSizes.large22};
+    }
+    @media print {
+        display: none
     }
 `
 
@@ -170,6 +194,9 @@ const AddButton = styled.button<AddButtonProps>`
     }
     @media(min-width: 1440px) {
         font-size: ${fontsSizes.large22};
+    }
+    @media print {
+        display: none
     }
 `
 

@@ -42,6 +42,9 @@ const Div = styled.div<DivProps>`
     @media screen and (max-width: 1332px) {
         gap: ${props => props.gapResponsive || "20px"};
     }
+    @media print {
+        width: 100vw;
+    }
 `
 
 export { Div }

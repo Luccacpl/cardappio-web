@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import api from '../../services/api';
 
@@ -11,14 +11,24 @@ import { Input } from 'components/Input/Input';
 import Button from 'components/Button/Button';
 import { Link } from 'react-router-dom';
 
-import Loader from 'components/Loader'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [showLoader, setShowLoader] = useState(false)
   const history = useHistory()
+
+  const [alertApi, SetAlertApi] = useState(false);
+  const [alertError, SetAlertError] = useState(false);
+
 
 
   const pipe = (...fns: Function[]) => (params: unknown) =>
@@ -28,7 +38,7 @@ function Login() {
     email !== '' && pass !== ''
 
   const showError = () =>
-    alert('complete os campos corretamente')
+    SetAlertError(true)
 
   const authLoginService = async () =>
     await api.post('login', { email, pass })
@@ -43,7 +53,7 @@ function Login() {
     history.push('/cardapio')
 
   const handlerErrorApi = () =>
-    alert('Houve um erro na API')
+    SetAlertApi(true)
 
   const submitLogin = () =>
     validateFields() ?
@@ -55,7 +65,9 @@ function Login() {
             redirectUserToDashboard,
           )
         )
-        .catch(handlerErrorApi)
+        .catch(
+          handlerErrorApi,
+        )
       : showError()
 
   return (
@@ -68,21 +80,21 @@ function Login() {
           marginTop={dimensions.spacing56}
         >
           Cardappio
-                </Title>
+        </Title>
         <SubTitle
           color={colors.green}
           fontSize={fontsSizes.large18}
           fontWeight="400"
         >
           Seja Bem-vindo!
-                </SubTitle>
+        </SubTitle>
         <P
           color={colors.white}
           fontSize={fontsSizes.small14}
           marginTop={dimensions.spacing16}
         >
           Por favor faça o seu login para ter acesso!
-                </P>
+        </P>
         <Input
           placeholder="Digite seu email"
           marginTop="36px"
@@ -106,7 +118,7 @@ function Login() {
             marginTop="1rem"
             clicked={submitLogin}
           />
-          <Link style={{ textDecoration: "none" }} to="/">
+          {/* <Link style={{ textDecoration: "none" }} to="/">
             <P
               color={colors.menuOrange}
               fontSize={fontsSizes.small12}
@@ -116,7 +128,7 @@ function Login() {
             >
               Esqueceu a senha?
                     </P>
-          </Link>
+          </Link> */}
         </BtnDiv>
         <Linha></Linha>
         <P
@@ -125,7 +137,7 @@ function Login() {
           textAlign="center"
         >
           Ainda não tem a sua conta?
-                </P>
+        </P>
         <Link style={{ textDecoration: "none" }} to="/cadastro">
           <P
             color={colors.menuOrange}
@@ -135,10 +147,28 @@ function Login() {
             textAlign="center"
           >
             Crie agora mesmo!
-                    </P>
+          </P>
         </Link>
       </ContainerLeft>
       <ContainerRight></ContainerRight>
+
+      {alertError === true &&
+        <Snackbar open={alertError} autoHideDuration={4000} onClose={() => SetAlertError(false)}>
+          <Alert onClose={() => SetAlertError(false)} severity="error">
+            Complete os campos corretamente!
+          </Alert>
+        </Snackbar>
+      }
+
+      {alertApi === true &&
+        <Snackbar open={alertApi} autoHideDuration={4000} onClose={() => SetAlertApi(false)}>
+          <Alert onClose={() => SetAlertApi(false)} severity="success">
+            Houve um erro na conexão com a API!
+          </Alert>
+        </Snackbar>
+      }
+
+
     </Body>
   );
 }

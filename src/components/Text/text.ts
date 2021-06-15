@@ -12,6 +12,7 @@ interface IP {
     textAlign?: string
     fontSizeResponsive?: string
     marginLeftResponsive?: string
+    marginBottom?: string
 }
 
 interface ITitle {
@@ -24,6 +25,7 @@ interface ITitle {
     fontSizeResponsive?: string
     marginLeftResponsive?: string
     marginBottom?: string
+    marginRight?: string
 }
 
 const P = styled.p<IP>`
@@ -32,6 +34,7 @@ const P = styled.p<IP>`
     font-weight: ${props => props.fontWeight || '400'};
     margin-top: ${props => props.marginTop};
     margin-left: ${props => props.marginLeft};
+    margin-bottom: ${props => props.marginBottom};
     text-align: ${props => props.textAlign};
     @media screen and (min-width: 1281px){
         font-size: ${props => props.fontSizeResponsive || fontsSizes.large18};
@@ -46,6 +49,7 @@ const Title = styled.h1<ITitle>`
     font-weight: ${props => props.fontWeight || '500'};
     margin-top: ${props => props.marginTop};
     margin-left: ${props => props.marginLeft};
+    margin-right: ${props => props.marginRight};
     margin-bottom: ${props => props.marginBottom};
     @media screen and (min-width: 1481px){
         font-size: ${props => props.fontSizeResponsive || fontsSizes.large40};

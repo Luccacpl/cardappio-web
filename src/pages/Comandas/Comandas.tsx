@@ -9,18 +9,14 @@ import { Linha } from '../../components/Linha/style'
 import CardsCommand from '../../components/CardsCommand/index'
 import Loader from "components/Loader";
 import DeleteModal from '../../components/DeleteModal/index'
-
 import Button from '../../components/Button/Button'
-
-
 import { TableWithTabs, Body, CardsContainer } from './style'
-
 import api from "../../services/api";
 import FundoMenor from '../../Images/FundoMenor.png'
-
 import { LiMenu } from '../../components/SubAside/style'
-
 import { ClipboardOutline } from 'react-ionicons'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 interface IItem {
   item_id: number;
@@ -54,6 +50,7 @@ interface IDeleteCategory {
 }
 
 
+
 function Comandas() {
 
   const history = useHistory()
@@ -61,7 +58,9 @@ function Comandas() {
   const [showLoader, setShowLoader] = useState(false);
   const [commands, setCommands] = useState<ICommands[]>([])
   const [filteredCommands, setFilteredCommands] = useState<ICommands>()
-  const [showCloseModal, setShowCloseModal] = useState<IDeleteCategory>({ command_id: 0,  isActive: false })
+  const [showCloseModal, setShowCloseModal] = useState<IDeleteCategory>({ command_id: 0, isActive: false })
+
+  const [showALert, setShowAlert] = useState(false);
 
   const [itemStatus, setItemStatus] = useState(1)
 
@@ -69,6 +68,9 @@ function Comandas() {
     localStorage.getItem("TOKEN") as string;
 
 
+  function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
   async function getCommands() {
     setShowLoader(true);
@@ -115,6 +117,7 @@ function Comandas() {
           },
         })
         .then((response) => {
+          setShowAlert(true)
           setItemStatus(id)
           console.log(response)
         })
@@ -133,9 +136,9 @@ function Comandas() {
       .then((response) => {
         console.log(response)
         getCommands()
-        
+
       })
-      setShowCloseModal({ command_id: filteredCommands?.command_id,  isActive: false })
+    setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: false })
   }
 
 
@@ -189,7 +192,7 @@ function Comandas() {
                   heightResponsive="40px"
                   margin="0 0 0 24px"
                   // clicked={() => closeCommand(filteredCommands?.command_id)}
-                  clicked={() => setShowCloseModal({ command_id: filteredCommands?.command_id,  isActive: true })}
+                  clicked={() => setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: true })}
                 />
               </div>
 
@@ -240,10 +243,11 @@ function Comandas() {
                       cancelClicked={() => updateItemStatus(itemcommand.item_command_id, 4)}
                       readyClicked={() => updateItemStatus(itemcommand.item_command_id, 3)}
                       preparationClicked={() => updateItemStatus(itemcommand.item_command_id, 2)}
-                      checkColor={itemcommand.item_command_status === 3 ? "black" : "white" }
-                      preparationColor={itemcommand.item_command_status === 2 ? "black" : "white" }
-                      closeColor={itemcommand.item_command_status === 4 ? "black" : "white" }
+                      checkColor={itemcommand.item_command_status === 3 ? "black" : "white"}
+                      preparationColor={itemcommand.item_command_status === 2 ? "black" : "white"}
+                      closeColor={itemcommand.item_command_status === 4 ? "black" : "white"}
                     />
+
                   ))
                 }
 
@@ -257,6 +261,15 @@ function Comandas() {
                 )}
 
                 {showLoader && <Loader />}
+
+
+                {showALert === true &&
+                  <Snackbar open={showALert} autoHideDuration={4000} onClose={() => setShowAlert(false)}>
+                    <Alert onClose={() => setShowAlert(false)} severity="success">
+                      Status do item mudado
+                    </Alert>
+                  </Snackbar>
+                }
 
               </Container>
             </CardsContainer>
