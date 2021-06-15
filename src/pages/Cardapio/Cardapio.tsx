@@ -436,27 +436,27 @@ function Cardapio() {
     if (name === "") {
       SetAlertErrorValidation(true)
     } else {
-      try {
         console.log('id: ', id);
-        await api.put(
-          "category/" + id,
-          { name },
+        await api.put("category/" + id, { name },
           {
             headers: {
               authorization: getTokenFromStorage(),
             },
           }
-        );
-
-        history.push("/cardapio");
-
-        setRefresh((chave) => chave + 1);
-
-        setShowModalEdit({ id: category.id, isActive: false, name: category.name });
-      } catch (error) {
-        setAlertError(true)
-        alert('Ocorreu algum erro. Tente novamente!')
-      }
+        )
+        .then(response => {
+          console.log("resposta: ", response)
+          alert("entrou")
+          GetCategory()
+          history.push("/cardapio");
+          setRefresh((chave) => chave + 1);
+          setShowModalEdit({ id: category.id, isActive: false, name: category.name });
+        })
+        .catch(error => {
+          alert(error.message)
+          setAlertError(true)
+          alert('Ocorreu algum erro. Tente novamente!')
+        })
     }
   }
 
@@ -597,7 +597,7 @@ function Cardapio() {
                   width="25%"
                   height="2.25rem"
                   marginTop="28px"
-                  clicked={() => handleSubmitEdit(category, showModalEdit.id, showModalEdit.name)}
+                  clicked={() => handleSubmitEdit(category, showModalEdit.id, name)}
                 />
               </Modal>
             )}
