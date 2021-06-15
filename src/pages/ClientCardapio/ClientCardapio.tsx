@@ -45,10 +45,6 @@ const ClientCardapio = () => {
         },
       })
       .then(response => {
-        if(response.data.content.command.command_checkout !== null){
-          localStorage.removeItem('TOKEN')
-          history.push('/')
-        }
         setShowLoader(false);
         setCategories(response.data.content);
         console.log("categorias: ", categories)
@@ -56,6 +52,24 @@ const ClientCardapio = () => {
       })
       .catch(error => {
         setShowLoader(false);
+        console.log(error.message)
+      })
+  }
+
+  async function verify() {
+    await api
+      .get("/customercommand", {
+        headers: {
+          authorization: getTokenFromStorage(),
+        },
+      })
+      .then(response => {
+        if(response.data.content.command.command_checkout !== null){
+          localStorage.removeItem('TOKEN')
+          history.push('/')
+        }
+      })
+      .catch(error => {
         console.log(error.message)
       })
   }
@@ -81,6 +95,7 @@ const ClientCardapio = () => {
 
   useEffect(() => {
     getCategory()
+    verify()
   }, [])
 
   return (
