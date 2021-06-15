@@ -138,7 +138,7 @@ function Comandas() {
     })
       .then((response) => {
         console.log(response)
-        getCommands()
+        window.location.reload()
 
       })
     setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: false })

@@ -450,7 +450,6 @@ function Cardapio() {
         )
         .then(response => {
           console.log("resposta: ", response)
-          alert("entrou")
           GetCategory()
           history.push("/cardapio");
           setRefresh((chave) => chave + 1);
