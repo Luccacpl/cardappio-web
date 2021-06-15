@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -111,6 +111,7 @@ function Cardapio() {
 
   const [alertErrorValidation, SetAlertErrorValidation] = useState(false);
   const [alertError, setAlertError] = useState(false)
+  const [alertSuccess, setAlertSuccess] = useState(false)
 
   const [showDeleteModal, setShowDeleteModal] = useState<IDeleteCategory>({ id: 0, name: '', isActive: false })
   const [showLoader, setShowLoader] = useState(false);
@@ -243,10 +244,9 @@ function Cardapio() {
   }
 
 
-  async function handleSubmitItem() {
+  async function handleSubmitItem(event: FormEvent) {
+    event.preventDefault()
     const url = 'item'
-
-    setShowModal(true);
 
     // alert('entrou aqui')
 
@@ -260,6 +260,8 @@ function Cardapio() {
 
     console.log("data", data)
 
+    setShowLoader(true)
+
     // const result = await api.post(url, data)
 
     // alert(result)
@@ -267,16 +269,18 @@ function Cardapio() {
 
     await api.post(url, data)
       .then(response => {
-        alert("entrou no then")
-        console.log(response.data)
+        closeModal()
+        setShowLoader(false)
+        console.log(response.data)       
         // history.push("/cardapio");
         // setRefresh((chave) => chave + 1);
-        setShowModal(false);
+        setAlertSuccess(true)
         GetCategory()
       })
       .catch(error => {
-        setShowModal(false);
-        alert('Ocorreu algum erro. Tente novamente!')
+        closeModal()
+        setShowLoader(false)
+        setAlertError(true)
         console.log(error.message)
       })
   }
@@ -471,6 +475,7 @@ function Cardapio() {
     setDescription("");
     setNameItem("");
     setPrice("");
+    setSelectedFile([]);
   }
 
   function GetCategory() {
@@ -934,6 +939,14 @@ function Cardapio() {
         <Snackbar open={alertError} autoHideDuration={4000} onClose={() => setAlertError(false)}>
           <Alert onClose={() => setAlertError(false)} severity="error">
             Ocorreu algum erro. Tente novamente!
+          </Alert>
+        </Snackbar>
+      }
+
+    {alertSuccess === true &&
+        <Snackbar open={alertSuccess} autoHideDuration={4000} onClose={() => setAlertSuccess(false)}>
+          <Alert onClose={() => setAlertSuccess(false)} severity="success">
+            Cadastro completado!
           </Alert>
         </Snackbar>
       }
