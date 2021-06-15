@@ -53,7 +53,7 @@ const ItemContainer = styled.div`
 `
 
 const NameContainer = styled.div`
-  width: 30%;
+  width: 40%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -81,7 +81,7 @@ const StatusContainer = styled.div`
 `
 
 const ButtonContainer = styled.div`
-  width: 15%;
+  width: 5%;
   height: 100%;
   display: flex;
   flex-direction: row;

@@ -45,6 +45,10 @@ const ClientCardapio = () => {
         },
       })
       .then(response => {
+        if(response.data.content.command.command_checkout !== null){
+          localStorage.removeItem('TOKEN')
+          history.push('/')
+        }
         setShowLoader(false);
         setCategories(response.data.content);
         console.log("categorias: ", categories)

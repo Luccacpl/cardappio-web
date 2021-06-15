@@ -167,7 +167,7 @@ const ClientCommand = () => {
             color="#B2DA5A"
             fontSize="18px"
           >
-            Itens
+            {`Itens: Comanda ${Command?.command_id}`}
           </P>
         </TitleContainer>
         <CommandContainer>

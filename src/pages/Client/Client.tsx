@@ -1,12 +1,39 @@
 import { Container, ContainerTop, ContainerBottom, ContainerButtons, Button } from './style'
 import { Title, P } from '../../components/Text/text'
 import { useHistory } from 'react-router-dom';
+import api from "../../services/api";
 
 import { BookOutline, CardOutline } from 'react-ionicons'
+import { useEffect } from 'react';
 
 const Client = () => {
 
   const history = useHistory()
+
+  const getTokenFromStorage = (): string =>
+  localStorage.getItem("TOKEN") as string;
+
+  async function verify() {
+    await api
+      .get("/customercommand", {
+        headers: {
+          authorization: getTokenFromStorage(),
+        },
+      })
+      .then(response => {
+        if(response.data.content.command.command_checkout !== null){
+          localStorage.removeItem('TOKEN')
+          history.push('/')
+        }
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+  }
+
+  useEffect(() => {
+    verify()
+  }, [])
 
   return (
     <div style={{
