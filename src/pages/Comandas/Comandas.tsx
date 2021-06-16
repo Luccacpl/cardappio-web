@@ -139,7 +139,6 @@ function Comandas() {
       .then((response) => {
         console.log(response)
         window.location.reload()
-
       })
     setShowCloseModal({ command_id: filteredCommands?.command_id, isActive: false })
   }

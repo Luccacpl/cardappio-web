@@ -199,6 +199,7 @@ function Cardapio() {
       });
       GetCategory()
       setRefresh((chave) => chave + 1);
+      window.location.reload()
       console.log(id);
     } catch (error) {
       return alert("ocorreu algum erro");
